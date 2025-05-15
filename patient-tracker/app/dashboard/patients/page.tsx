@@ -8,7 +8,7 @@ function Patient() {
 
   // Function to trigger a data reload after adding a new patient
   const handlePatientAdded = () => {
-    setReload(true);
+      setReload(prev => !prev);
   };
   return (
     <div className="p-7">
