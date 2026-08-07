@@ -19,7 +19,6 @@ export class RedisService implements OnModuleDestroy {
         url: redisUrl,
         socket: {
           connectTimeout: 60000,
-          lazyConnect: true,
         },
       });
 
