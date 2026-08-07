@@ -5,7 +5,7 @@
 | 服务 | 端口 | 说明 | 启动命令 |
 |------|------|------|----------|
 | **前端 (Next.js)** | 3001 | 患者管理界面 | `npm run dev -- -p 3001` |
-| **后端 (NestJS)** | 3000 | API服务 + GPT服务 | `npm run start:dev` |
+| **后端 (NestJS)** | 3005 | API服务 + GPT服务 | `npm run start:dev` |
 | **WhatsApp机器人** | 5000 | 消息接收和转发 | `python main.py` |
 | **ngrok隧道** | 动态 | 公网访问隧道 | `ngrok http 5000` |
 
@@ -17,8 +17,8 @@
 
 ### 解决方案
 1. **前端使用端口3001**
-2. **后端保持端口3000**
-3. **WhatsApp机器人转发到端口3000**
+2. **后端使用端口3005**
+3. **WhatsApp机器人转发到端口3005**
 
 ## 📋 启动顺序
 
@@ -51,15 +51,15 @@ D:\Downloads\ngrok-v3-stable-windows-amd64\ngrok.exe http 5000
 ## 🌐 访问地址
 
 - **前端界面**: http://localhost:3001
-- **后端API**: http://localhost:3000
-- **GPT服务**: http://localhost:3000/chat/message
+- **后端API**: http://localhost:3005
+- **GPT服务**: http://localhost:3005/chat/message
 - **WhatsApp Webhook**: http://localhost:5000/webhook
 - **ngrok公网地址**: https://[ngrok-id].ngrok.io
 
 ## 🔄 消息流程
 
 ```
-WhatsApp用户 → Meta API → ngrok → 端口5000 → 端口3000 → GPT API → 回复用户
+WhatsApp用户 → Meta API → ngrok → 端口5000 → 端口3005 → GPT API → 回复用户
 ```
 
 ## ⚠️ 注意事项
@@ -74,7 +74,7 @@ WhatsApp用户 → Meta API → ngrok → 端口5000 → 端口3000 → GPT API 
 ### 端口被占用
 ```bash
 # 查看端口占用
-netstat -ano | findstr :3000
+netstat -ano | findstr :3005
 netstat -ano | findstr :3001
 netstat -ano | findstr :5000
 
