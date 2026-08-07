@@ -116,4 +116,25 @@ Please provide a targeted suggestion or reply based on the user's historical exe
     const hashInput = `${phoneNumber}:${content.trim().toLowerCase()}`;
     return crypto.createHash('md5').update(hashInput).digest('hex');
   }
+
+  async generateProactiveMessage(phoneNumber: string, type: 'inactivity' | 'intensity', data: any): Promise<string> {
+    this.logger.log(`🤖 [GPT Service] Generating proactive message for ${type}`);
+
+    const prompt = type === 'inactivity' 
+      ? `The patient hasn't exercised in ${data.days} days. Write a short, encouraging, and friendly WhatsApp message (max 30 words) to remind them to stay active. Mention that consistency is key!`
+      : `The patient just finished a workout. Their average heart rate was ${data.avgHR} bpm, which is slightly below their target of ${data.target} bpm. Write a supportive message (max 30 words) praising their effort but gently suggesting they increase intensity next time.`;
+
+    try {
+      const chat = await this.openai.chat.completions.create({
+        messages: [{ role: 'user', content: prompt }],
+        model: 'llama-3.1-8b-instant', // Or 'gpt-3.5-turbo' if you want to save money
+        temperature: 0.8, // A bit higher for more "creative/friendly" tone
+      });
+
+      return chat.choices[0]?.message?.content || 'Keep up the great work!';
+    } catch (err) {
+      this.logger.error('❌ [GPT Service] OpenAI Error:', err);
+      return "Just a friendly reminder to keep moving and stay healthy!";
+    }
+  }
 }
